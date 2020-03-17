@@ -1,6 +1,4 @@
-# Welcome to your CDK TypeScript project!
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+# Welcome to my Indy Cloud Conf Demo Project!
 
 ## Dependencies
 
