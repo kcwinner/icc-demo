@@ -9,7 +9,9 @@ class Example {
         let scanParams = {
             TableName: process.env.TABLE_NAME
         }
-        
+
+        console.log(scanParams);
+
         let data = await this.db.scan(scanParams).promise();
 
         console.log(data)

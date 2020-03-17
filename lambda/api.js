@@ -6,9 +6,13 @@ const Router = require('./lib/router');
 const example = require('./routes/example');
 const Example = new example({db: dynamo});
 
+const healthcheck = require('./routes/healthcheck');
+const HealthCheck = new healthcheck();
+
 const router = new Router({
     routes: [
-        ['GET', '/examples', (e) => Example.scanSomething(e)],
+        [ 'GET', '/examples', (e) => Example.scanSomething(e) ],
+        [ 'GET', '/healthcheck', (e) => HealthCheck.check(e) ]
     ]
 })
 
