@@ -1,9 +1,35 @@
 # Welcome to your CDK TypeScript project!
 
-You should explore the contents of this project. It demonstrates a CDK app with an instance of a stack (`IndycloudconfStack`)
-which contains an Amazon SQS queue that is subscribed to an Amazon SNS topic.
-
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
+
+## Dependencies
+
+* @aws-cdk/aws-iam
+* @aws-cdk/aws-dynamodb
+* @aws-cdk/aws-dynamodb-global
+* @aws-cdk/aws-apigateway
+* @aws-cdk/aws-lambda
+* @aws-cdk/aws-certificatemanager
+
+## Bootstrap
+
+* `cdk bootstrap`
+
+## Synth
+
+* `cdk synth icc-global-dynamo-stack-dev`
+* `cdk synth icc-global-api-1-${STAGE}`
+* `cdk synth icc-global-api-2-${STAGE}`
+
+## Deploy Individual
+
+* `cdk deploy icc-global-dynamo-stack-dev`
+* `cdk deploy icc-global-api-1-${STAGE}`
+* `cdk deploy icc-global-api-2-${STAGE}`
+
+## Deploy All (Wildcard)
+
+* `cdk deploy 'icc-*'`
 
 ## Useful commands
 
