@@ -21,14 +21,14 @@ export class ICCRegionalRecord extends Construct {
             privateZone: false
         })
 
-        console.log(props.api.url)
+        let url = props.api.url.replace('https://', '').split('/')[0];
 
         let healthCheck = new CfnHealthCheck(this, 'icc-demo-health-check', {
             healthCheckConfig: {
                 type: 'HTTPS',
-                resourcePath: '/healthcheck',
+                resourcePath: '/prod/healthcheck',
                 failureThreshold: 3,
-                fullyQualifiedDomainName: props.api.domainName?.domainNameAliasDomainName
+                fullyQualifiedDomainName: url,
                 // fullyQualifiedDomainName: props.api.domainName?.domainNameAliasDomainName
             }
         });
