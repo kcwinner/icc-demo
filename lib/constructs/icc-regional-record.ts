@@ -1,5 +1,5 @@
 import { Construct, Duration } from '@aws-cdk/core';
-import { HostedZone, RecordSet, RecordType, IHostedZone, CfnRecordSet } from '@aws-cdk/aws-route53';
+import { IHostedZone, HostedZone, RecordSet, RecordType, CfnHealthCheck, CfnRecordSet } from '@aws-cdk/aws-route53';
 import { LambdaRestApi } from '@aws-cdk/aws-apigateway';
 
 export interface ICCRegionalRecordProps {
@@ -21,6 +21,18 @@ export class ICCRegionalRecord extends Construct {
             privateZone: false
         })
 
+        console.log(props.api.url)
+
+        let healthCheck = new CfnHealthCheck(this, 'icc-demo-health-check', {
+            healthCheckConfig: {
+                type: 'HTTPS',
+                resourcePath: '/healthcheck',
+                failureThreshold: 3,
+                fullyQualifiedDomainName: props.api.domainName?.domainNameAliasDomainName
+                // fullyQualifiedDomainName: props.api.domainName?.domainNameAliasDomainName
+            }
+        });
+
         this.recordSet = new CfnRecordSet(this, 'test', {
             name: 'global-demo.kennethwinner.com',
             region: props.region,
@@ -30,7 +42,8 @@ export class ICCRegionalRecord extends Construct {
             resourceRecords: [
                 props.api.domainName?.domainNameAliasDomainName || ''
             ],
-            setIdentifier: props.region
-        })
+            setIdentifier: props.region,
+            healthCheckId: healthCheck.ref
+        });
     }
 }

@@ -47,6 +47,8 @@ export class ICCGlobalApiStack extends cdk.Stack {
       }
     })
 
+    regionalApi.
+
     let record = new ICCRegionalRecord(this, `icc-api-regional-record-${STAGE}`, {
       api: regionalApi,
       region: REGION || ''
