@@ -23,6 +23,8 @@ exports.handler = async (event, context) => {
     let response;
     try {
         let result = await router.route(event);
+        result['region'] = process.env.AWS_REGION;
+        result['host'] = event.headers.Host;
         response = {
             'statusCode': 200,
             'body': JSON.stringify(result)

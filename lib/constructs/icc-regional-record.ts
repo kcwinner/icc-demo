@@ -1,10 +1,11 @@
-import { Construct, Duration } from '@aws-cdk/core';
-import { IHostedZone, HostedZone, RecordSet, RecordType, CfnHealthCheck, CfnRecordSet } from '@aws-cdk/aws-route53';
+import { Construct } from '@aws-cdk/core';
+import { IHostedZone, HostedZone, RecordType, CfnHealthCheck, CfnRecordSet } from '@aws-cdk/aws-route53';
 import { LambdaRestApi } from '@aws-cdk/aws-apigateway';
 
 export interface ICCRegionalRecordProps {
     api: LambdaRestApi,
     region: string
+    domainName: string
 }
 
 export class ICCRegionalRecord extends Construct {
@@ -14,10 +15,8 @@ export class ICCRegionalRecord extends Construct {
     constructor(scope: Construct, id: string, props: ICCRegionalRecordProps) {
         super(scope, id);
 
-        const STAGE = this.node.tryGetContext('STAGE')
-
         this.hostedZone = HostedZone.fromLookup(this, 'HostedZone', {
-            domainName: 'kennethwinner.com',
+            domainName: props.domainName,
             privateZone: false
         })
 
@@ -28,13 +27,12 @@ export class ICCRegionalRecord extends Construct {
                 type: 'HTTPS',
                 resourcePath: '/prod/healthcheck',
                 failureThreshold: 3,
-                fullyQualifiedDomainName: url,
-                // fullyQualifiedDomainName: props.api.domainName?.domainNameAliasDomainName
+                fullyQualifiedDomainName: url
             }
         });
 
         this.recordSet = new CfnRecordSet(this, 'test', {
-            name: 'global-demo.kennethwinner.com',
+            name: `global-demo.${this.hostedZone.zoneName}`,
             region: props.region,
             type: RecordType.CNAME,
             hostedZoneId: this.hostedZone.hostedZoneId,
