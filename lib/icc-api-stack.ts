@@ -2,7 +2,7 @@ import * as cdk from '@aws-cdk/core';
 
 import { ICCGlobalTablesStack } from '../lib/icc-global-table';
 import { LambdaRestApi, EndpointType } from '@aws-cdk/aws-apigateway';
-import { Runtime, Code, Function } from '@aws-cdk/aws-lambda';
+import { Runtime, Code, Function, CfnFunction } from '@aws-cdk/aws-lambda';
 import { HostedZone } from '@aws-cdk/aws-route53';
 import { DnsValidatedCertificate } from '@aws-cdk/aws-certificatemanager';
 
@@ -49,6 +49,7 @@ export class ICCGlobalApiStack extends cdk.Stack {
     })
 
     let record = new ICCRegionalRecord(this, `icc-api-regional-record-${STAGE}`, {
+      hostedZone: hostedZone,
       api: regionalApi,
       region: REGION || '',
       domainName: 'kennethwinner.com'

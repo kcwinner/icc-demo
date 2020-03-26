@@ -17,14 +17,20 @@ const app = new cdk.App(
 let replicationRegions = ['us-west-2'];
 let globalTableStack = new ICCGlobalTablesStack(app, `icc-global-dynamo-stack-${STAGE}`, { 
     replicationRegions: replicationRegions,
-    // env: {
-    //     region: REGION,
-    //     account: ACCOUNT
-    // }
 });
 
 // Deploy stack to us-east-2
-new ICCGlobalApiStack(app, `icc-global-api-1-${STAGE}`, globalTableStack, { env: { region: 'us-east-2', account: ACCOUNT } });
+new ICCGlobalApiStack(app, `icc-global-api-1-${STAGE}`, globalTableStack, { 
+    env: { 
+        region: 'us-east-2', 
+        account: ACCOUNT 
+    } 
+});
 
 // Deploy stack to us-west-2
-new ICCGlobalApiStack(app, `icc-global-api-2-${STAGE}`, globalTableStack, { env: { region: 'us-west-2', account: ACCOUNT } });
+new ICCGlobalApiStack(app, `icc-global-api-2-${STAGE}`, globalTableStack, { 
+    env: { 
+        region: 'us-west-2', 
+        account: ACCOUNT 
+    } 
+});
